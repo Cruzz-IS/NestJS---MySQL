@@ -1,22 +1,17 @@
-import { Type } from '@nestjs/class-transformer';
-import {
-  IsNumber,
-  IsOptional,
-  MaxLength,
-  MinLength,
-} from '@nestjs/class-validator';
+import { Type } from 'class-transformer';
+import { IsNumber, IsOptional, Max, Min } from 'class-validator';
 
 export class PaginationQueryDto {
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  @MinLength(1)
+  @Min(1)
   page: number = 1;
 
   @IsOptional()
   @Type(() => Number)
   @IsNumber()
-  @MinLength(1)
-  @MaxLength(100)
+  @Min(1)
+  @Max(100)
   limit: number = 10;
 }

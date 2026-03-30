@@ -9,7 +9,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersRepository extends BaseRepository {
   async getUsers(page: number, limit: number) {
     try {
-      const sets = await this.call('sp_users_find_all', [page, limit]);
+      const sets = await this.call('sp_users_all', [page, limit]);
       const rows = sets[0] as RowDataPacket[] | undefined;
       const total =
         ((sets[1]?.[0] as RowDataPacket | undefined)?.total as number) ?? 0;
@@ -21,7 +21,7 @@ export class UsersRepository extends BaseRepository {
 
   async getUserById(id: number) {
     try {
-      const sets = await this.call('sp_users_find_by_id', [id]);
+      const sets = await this.call('sp_users_by_id', [id]);
       return (sets[0]?.[0] as RowDataPacket | undefined) ?? null;
     } catch (e) {
       mapSpError(e);
