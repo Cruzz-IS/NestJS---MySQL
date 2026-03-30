@@ -5,7 +5,7 @@ import {
   IsString,
   MaxLength,
   MinLength,
-} from '@nestjs/class-validator';
+} from 'class-validator';
 
 export enum UserRole {
   ADMIN = 'admin',
