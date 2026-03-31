@@ -3,11 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
-<<<<<<< Updated upstream
-import * as dotenv from 'dotenv';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-=======
->>>>>>> Stashed changes
 dotenv.config();
 
 async function bootstrap(): Promise<void> {

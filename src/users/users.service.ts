@@ -49,7 +49,7 @@ export class UsersService {
   }
 
   async updateUser(id: number, dto: UpdateUserDto) {
-    return this.repo.updateUser(id, dto);
+    return await this.repo.updateUser(id, dto);
   }
 
   async deleteUser(id: number): Promise<void> {

@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductsRepository } from './products.repository';
+import { PaginationQueryDto } from 'src/common/pagination-query.dto';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(private readonly repo: ProductsRepository) {}
+
+  async createProduct(createProductDto: CreateProductDto) {
+    try {
+      return await this.repo.createProduct(createProductDto);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Error desconocido';
+      throw new InternalServerErrorException(
+        `Error al crear usuario: ${message}`,
+      );
+    }
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async getAllProducts(query: PaginationQueryDto) {
+    const { rows, total } = await this.repo.getAllProducts(
+      query.page,
+      query.limit,
+      query.search,
+      query.category_id,
+    );
+    return {
+      data: rows,
+      meta: {
+        total,
+        page: query.page,
+        limit: query.limit,
+        totalPages: Math.ceil(total / query.limit),
+      },
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async getproductById(id: number) {
+    const product = await this.repo.getProductById(id);
+    if (!product) throw new NotFoundException('Usuario no encontrado');
+    return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async updateProduct(id: number, updateProductDto: UpdateProductDto) {
+    return await this.repo.updateProduct(id, updateProductDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async removeProduct(id: number): Promise<void> {
+    await this.repo.deleteProduct(id);
   }
 }
