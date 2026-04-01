@@ -3,10 +3,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProductDto, ProductQueryDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsRepository } from './products.repository';
-import { PaginationQueryDto } from 'src/common/pagination-query.dto';
 
 @Injectable()
 export class ProductsService {
@@ -19,12 +18,12 @@ export class ProductsService {
       const message =
         error instanceof Error ? error.message : 'Error desconocido';
       throw new InternalServerErrorException(
-        `Error al crear usuario: ${message}`,
+        `Error al agregar un producto: ${message}`,
       );
     }
   }
 
-  async getAllProducts(query: PaginationQueryDto) {
+  async getAllProducts(query: ProductQueryDto) {
     const { rows, total } = await this.repo.getAllProducts(
       query.page,
       query.limit,
@@ -44,7 +43,7 @@ export class ProductsService {
 
   async getproductById(id: number) {
     const product = await this.repo.getProductById(id);
-    if (!product) throw new NotFoundException('Usuario no encontrado');
+    if (!product) throw new NotFoundException('Producto no encontrado');
     return product;
   }
 

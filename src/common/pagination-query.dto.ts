@@ -14,13 +14,4 @@ export class PaginationQueryDto {
   @Min(1)
   @Max(100)
   limit: number = 10;
-
-  @IsOptional()
-  @Type(() => String)
-  search?: string;
-
-  @IsOptional()
-  @Type(() => Number)
-  @IsNumber()
-  category_id?: number;
 }

@@ -17,8 +17,8 @@ export class ProductsRepository extends BaseRepository {
       const sets = await this.call('sp_products_find_all', [
         page,
         limit,
-        search,
-        category_id,
+        search ?? null,
+        category_id ?? null,
       ]);
       const rows = sets[0] as RowDataPacket[] | undefined;
       const total =
@@ -58,10 +58,9 @@ export class ProductsRepository extends BaseRepository {
       const sets = await this.call('sp_products_update', [
         id,
         dto.name ?? null,
-        dto.sku ?? null,
         dto.price ?? null,
         dto.stock ?? null,
-        dto.category_id ?? null,
+        dto.status ?? null,
       ]);
       return sets[0]?.[0] as RowDataPacket | undefined;
     } catch (e) {
